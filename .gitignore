@@ -1,5 +1,5 @@
 outputs/
-data/
+#data/
 theory/
 __pycache__/
 *.pyc
@@ -8,6 +8,7 @@ __pycache__/
 #._.DS_Store
 **/.DS_Store
 #**/._.DS_Store
+.hepmc
 .idea
 .dropbox
 .ipynb_checkpoints/
