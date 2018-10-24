@@ -32,7 +32,7 @@ HiggsSM:gg2H = on                  ! Higgs production by gluon-gluon fusion
 ! Handbook of LHC Higgs Cross Sections: 1. Inclusive Observables,
 ! S. Dittmaier et al., CERN-2011-002 [arXiv:1101.0593].
 ! Note: sum is not quite unity, and so BR's are rescaled accordingly.
-25:m0        = 100.0               ! Higgs mass
+25:m0        = 135.0               ! Higgs mass
 25:mWidth    = 0.00403             ! Higgs width
 25:0:bRatio  = 0.0                 ! H -> d dbar
 25:1:bRatio  = 0.0                 ! H -> u ubar

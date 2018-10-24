@@ -20,3 +20,15 @@ def get_group_events(name, num_events, seed, train):
         particles = X.view(np.float64).reshape(X.shape + (-1,))
         group_events.append(particles)
     return group_events
+
+def genTrainSet(cfg, num_events, seed=1):
+    X = get_group_events(cfg, num_events, seed, train=True)
+    return X
+
+def genTestSet(cfg, events, seed=101):
+    # Events, list with number of background samples and Higgs realization.
+    Ytest = [0]*events[0]+[1]*events[1]
+    X = get_group_events(cfg, num_events=events[0], seed=seed, train=True)
+    X_Higgs = get_group_events(cfg, num_events=events[1], seed=seed, train=False)
+    X.extend(X_Higgs)
+    return X, Ytest

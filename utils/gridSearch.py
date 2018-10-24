@@ -23,7 +23,7 @@ def roc_auc(Ytest, emp_p_values):
     """
     positives = Ytest
     negatives = [1-y for y in Ytest]
-    cuts = np.arange(30)*(1/30.)
+    cuts = np.arange(len(Ytest))*(1/len(Ytest))
     
     best_cut = 0.
     tprs, fprs = [], []
@@ -36,7 +36,7 @@ def roc_auc(Ytest, emp_p_values):
     lag_tprs = [0]+tprs[0:len(tprs)-1]
     diff_tprs = [tpr-lag_tpr for tpr,lag_tpr in zip(tprs, lag_tprs)]
     auc = 1.-sum([fpr*diff_tpr for fpr,diff_tpr in zip(fprs, diff_tprs)])
-    roc_curve = np.array([tprs, fprs]).T
+    roc_curve = np.array([fprs, tprs]).T
     return auc, best_cut, roc_curve
 
 def accuracy(Ytest, Ypred):
