@@ -1,6 +1,33 @@
 import numpy as np
 
-def genSyntheticSet(n, pmix=None, seed=1):
+def genSyntheticTrainData_1(n_sample, n_sets):
+    # Generate Train data composed of n_sets 2D Gaussian Mixtures.
+    Xtrain = []
+    n_samples = np.random.poisson(lam=n_sample, size=n_sets).tolist()
+    Xtrain = [genSyntheticSet_1(n, seed=s) for s,n in enumerate(n_samples)]
+    return Xtrain
+
+def genSyntheticSet_1(n, pmix=None, sigma_c=None, seed=1):
+    # Generate 2D Gaussian Mixture sets using pmix weights or 'normal' weights.
+    np.random.seed(seed=seed)    
+    # Topic sampling
+    ws = [[0.22, 0.64, 0.03, 0.11],[0.22, 0.03, 0.64, 0.11]]
+    if pmix==None:
+        pmix = ws[np.random.binomial(1, p=.52)]
+    n_topics = np.random.multinomial(n, pvals=pmix)
+    # Mixture sampling
+    mus = [[-1, -1], [1, -1], [0, 1], [1, 1]]
+    if sigma_c==None:
+        sigma_c = 0.15
+    sigma = sigma_c * np.identity(2)
+    X = []
+    for idx, n_topic in enumerate(n_topics):
+        if n_topic>0:
+            X.append(np.random.multivariate_normal(mean = mus[idx], cov = sigma, size=n_topic))
+    X = np.vstack(X)
+    return X
+
+def genSyntheticSet(n, pmix=None, sigma_c=None, seed=1):
     # Generate 2D Gaussian Mixture sets using pmix weights or 'normal' weights.
     np.random.seed(seed=seed)    
     # Topic sampling
@@ -10,7 +37,9 @@ def genSyntheticSet(n, pmix=None, seed=1):
     n_topics = np.random.multinomial(n, pvals=pmix)
     # Mixture sampling
     mus = [[-1.7, -1], [1.7, -1], [0,2]]
-    sigma = 0.2 * np.identity(2)
+    if sigma_c==None:
+        sigma_c = 0.2
+    sigma = sigma_c * np.identity(2)
     X = []
     for idx, n_topic in enumerate(n_topics):
         if n_topic>0:
